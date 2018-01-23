@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col">
+    <table class="table text-center">
+      <tr>
+        <th class="text-center">Distance</th>
+        <th class="text-center">Duration</th>
+      </tr>
+      <tr>
+        {% if leg is defined %}
+          <td>{{leg.distance.text}}</td>
+          <td>{{leg.duration.text}}</td>
+        {% else %}
+          <td>{{distance}}</td>
+          <td>{{duration}}</td>
+        {% endif %}
+      </tr>
+    </table>
+  </div>
+</div>

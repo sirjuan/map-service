@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+<style>
+  #map {
+    height: 600px;
+    width: 100%;
+   }
+</style>
+{% endblock %}
+
+{% block h1 %}Add marker{% endblock %}
+
+{% block body %}
+
+  {% include 'marker/_map.html.twig' %}
+
+  <div class="row">
+    <div class="col">
+      {% form_theme form 'bootstrap_3_layout.html.twig' %}
+      {{ form_start(form) }}
+      {{ form_widget(form) }}
+      {{ form_end(form) }}
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+  function init() {
+      const position = {lat: {{ location.latitude }}, lng: {{ location.longitude }}};
+      const element = document.getElementById('map');
+      const map = new google.maps.Map(element, {
+        zoom: 12,
+        center: position
+      });
+      const marker = new google.maps.Marker({
+        position,
+        map: map,
+        title: '{{marker.message}}',
+        icon: 'http://maps.google.com/mapfiles/kml/paddle/{{marker.color}}-{{marker.type}}.png'
+      });
+  };
+</script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&callback=init">
+  </script>
+{% endblock %}

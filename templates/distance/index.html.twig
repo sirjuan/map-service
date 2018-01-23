@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block h1 %}Distance{% endblock %}
+
+{% block body %}
+  <div class="row">
+    <div class="col">
+      {% form_theme form 'bootstrap_3_layout.html.twig' %}
+      {{ form_start(form) }}
+      {{ form_widget(form) }}
+      {{ form_end(form) }}
+    </div>
+  </div>
+  {% if distance is not empty and duration is not empty %}
+      {% include 'common/_distanceduration.html.twig' %}
+  {% endif %}
+{% endblock %}

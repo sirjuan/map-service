@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block h1 %}Sign Up{% endblock %}
+
+{% block body %}
+    <form class="form-horizontal" action="{{ path('security_signup') }}" method="post">
+      <div class="form-group">
+        <label for="username" class="col-sm-2 control-label">Username</label>
+        <div class="col-sm-10">
+          <input type="text" id="username" name="username" class="form-control" placeholder="Username">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">E-Mail</label>
+        <div class="col-sm-10">
+          <input type="email" id="email" name="email" class="form-control" placeholder="E-Mail">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="full-name" class="col-sm-2 control-label">Full name</label>
+        <div class="col-sm-10">
+          <input type="text" id="full-name" name="full-name" class="form-control" placeholder="Full name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password" class="col-sm-2 control-label">Password</label>
+        <div class="col-sm-10">
+          <input type="password" id="password" name="_password" class="form-control" placeholder="Password">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default">Sign Up</button> <a href="{{ path('security_login') }}">Log in instead</a>
+        </div>
+      </div>
+    </form>
+{% endblock %}

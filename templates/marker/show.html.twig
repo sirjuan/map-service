@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+<style>
+  #map {
+    height: 600px;
+    width: 100%;
+   }
+</style>
+{% endblock %}
+
+{% block h1 %}{% endblock %}
+
+{% block body %}
+  {% include 'marker/_map.html.twig' %}
+{% endblock %}
+
+
+{% block javascripts %}
+  <script>
+    function init() {
+        const position = {lat: {{ marker.location.latitude }}, lng: {{ marker.location.longitude }}};
+        const element = document.getElementById('map');
+        const map = new google.maps.Map(element, {
+          zoom: 12,
+          center: position
+        });
+        const marker = new google.maps.Marker({
+          position,
+          map: map,
+          title: '{{marker.message}}',
+          icon: 'http://maps.google.com/mapfiles/kml/paddle/{{marker.color}}-{{marker.type}}.png'
+        });
+    };
+  </script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&callback=init">
+  </script>
+{% endblock %}

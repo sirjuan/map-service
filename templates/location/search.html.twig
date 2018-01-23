@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block h1 %}Search{% endblock %}
+
+{% block body %}
+  <div class="row">
+    <div class="col text-center">
+      {% form_theme form 'bootstrap_3_layout.html.twig' %}
+      {{ form_start(form, { 'attr': {'class': 'form-inline'}}) }}
+          {{ form_row(form.address) }}
+          {{ form_row(form.save) }}
+      {{ form_end(form) }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-striped">
+        {% if locations is not empty %}
+          <th>Address</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
+          <th>Id</th>
+          <th></th>
+        {% endif %}
+        {% for location in locations %}
+          <tr>
+            <td>{{location.address}}</td>
+            <td>{{location.latitude}}</td>
+            <td>{{location.longitude}}</td>
+            <td>{{location.id}}</td>
+            <td>
+              {{ form_start(location.form, {method: 'POST', action: path('add_location')}) }}
+                  <button class="btn btn-primary pull-right" type="submit">
+                      <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                      {% if location.user is defined %}
+                         Choose
+                      {% else %}
+                         Add
+                      {% endif %}
+                  </button>
+              {{ form_end(location.form) }}
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+<ul class="list-group">
+{% for step in leg.steps %}
+
+
+    <li class="list-group-item">
+      <span class="badge">{{step.distance.text}} ({{step.duration.text}})</span>
+      <table>
+        <tr class="navigation-item">
+          <td style="width: 60px;">
+            {% if step.maneuver is defined %}
+                <img src="{{ asset('icons/direction-' ~ step.maneuver ~ '.png') }}" alt="{{step.maneuver}}" height="50" />
+            {% endif %}
+          </td>
+          <td>{{ step.html_instructions | raw }}</td>
+        </tr>
+      </table>
+
+
+    </li>
+
+
+{% endfor %}
+</ul>

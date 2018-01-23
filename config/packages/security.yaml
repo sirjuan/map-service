@@ -1,0 +1,36 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        # Our user class and the algorithm we'll use to encode passwords
+        # https://symfony.com/doc/current/security.html#c-encoding-the-user-s-password
+        App\Entity\User: bcrypt
+    providers:
+        # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+        # In this example, users are stored via Doctrine in the database
+        # To see the users at src/App/DataFixtures/ORM/LoadFixtures.php
+        # To load users from somewhere else: https://symfony.com/doc/current/security/custom_provider.html
+        #in_memory: { memory: ~ }
+        database_users:
+            entity: { class: App\Entity\User, property: username }
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: ~
+            form_login:
+                login_path: security_login
+                check_path: security_login
+            logout:
+                # The route name the user can go to in order to logout
+                path: security_logout
+                # The name of the route to redirect to after logging out
+                target: add_location
+
+            # activate different ways to authenticate
+
+            # http_basic: ~
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: ~
+            # https://symfony.com/doc/current/security/form_login_setup.html

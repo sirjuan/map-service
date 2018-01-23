@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+  <style>
+    #map {
+      height: 600px;
+      width: 100%;
+     }
+     .badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #333;
+    background: white;
+    line-height: 50px;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .navigation-item {
+    min-height: 50px;
+    height: 50px;
+  }
+  </style>
+{% endblock %}
+
+{% block h1 %}Directions{% endblock %}
+
+{% block body %}
+  <div class="row">
+    <div class="col">
+      {% form_theme form 'bootstrap_3_layout.html.twig' %}
+      {{ form_start(form) }}
+      {{ form_widget(form) }}
+      {{ form_end(form) }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div id="map"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      {% include 'navigation/_legs.html.twig' %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+      function init() {
+        {% if bounds.southwest is defined %}
+
+          const element = document.getElementById('map');
+          const northeast = new google.maps.LatLng({{bounds.northeast.lat}}, {{bounds.northeast.lng}})
+          const southwest = new google.maps.LatLng({{bounds.southwest.lat}}, {{bounds.southwest.lng}})
+          const bounds = new google.maps.LatLngBounds(southwest, northeast);
+          const options = { zoom: 12, center: bounds.getCenter() };
+          const map = new google.maps.Map(element, options);
+          map.fitBounds(bounds);
+
+          {% for leg in legs %}
+
+            {% if leg is defined %}
+
+              var originMarker = new google.maps.Marker({
+                position: {lat: {{leg.start_location.lat}}, lng: {{leg.start_location.lng}}},
+                map: map,
+                title: 'Destination: {{leg.start_address}}',
+                icon: 'http://maps.google.com/mapfiles/kml/paddle/blu-diamond.png'
+              });
+
+              var destinationMarker = new google.maps.Marker({
+                position: {lat: {{leg.end_location.lat}}, lng: {{leg.end_location.lng}}},
+                map: map,
+                title: 'Destination: {{leg.end_address}}',
+                icon: 'http://maps.google.com/mapfiles/kml/paddle/grn-diamond.png'
+              });
+
+              {% for step in leg.steps %}
+                {% autoescape 'js' %}
+                    var flightPath = new google.maps.Polyline({
+                      path: google.maps.geometry.encoding.decodePath('{{step.polyline.points}}'),
+                      map,
+                      strokeColor: '#FF0000',
+                      strokeOpacity: 1.0,
+                      strokeWeight: 4
+                    });
+                {% endautoescape %}
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      };
+    </script>
+      <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&callback=init&libraries=geometry">
+      </script>
+    {% endblock %}

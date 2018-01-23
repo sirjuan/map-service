@@ -1,0 +1,84 @@
+<header>
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header col-md-3 col-lg-2">
+                <a class="navbar-brand" href="{{ path('add_location') }}">
+                    Map Service
+                </a>
+
+                <button type="button" class="navbar-toggle"
+                        data-toggle="collapse"
+                        data-target=".navbar-collapse">
+                    <span class="sr-only">Joopajoo</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              {% if is_granted('ROLE_USER') %}
+                <form class="navbar-form navbar-right" action="{{ path('security_logout') }}" method="post">
+                  <button class="btn btn-default" type="submit">Log Out, {{app.user.username}}</button>
+                </form>
+              {% else  %}
+                <form class="navbar-form navbar-right" action="{{ path('security_login') }}" method="post">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Username" id="username" name="_username">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" id="password" name="_password">
+                  </div>
+                  <button type="submit" class="btn btn-default">Login</button>
+                  <a class="btn btn-default" href="{{ path('security_signup') }}">Sign Up</a>
+                </form>
+              {% endif %}
+                <ul class="nav navbar-nav navbar-right">
+
+                    {% block header_navigation_links %}
+                        <li>
+                            <a href="{{ path('add_location') }}">
+                                <i class="fa fa-home" aria-hidden="true"></i> Search
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('distance') }}">
+                                <i class="fa fa-home" aria-hidden="true"></i> Distance
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('locations') }}">
+                                <i class="fa fa-home" aria-hidden="true"></i> Locations
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('markers') }}">
+                                <i class="fa fa-home" aria-hidden="true"></i> Markers
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('navigation') }}">
+                                <i class="fa fa-home" aria-hidden="true"></i> Navigation
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('my_locations') }}">
+                                <i class="fa fa-home" aria-hidden="true"></i> My Locations
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('my_markers') }}">
+                                <i class="fa fa-home" aria-hidden="true"></i> My Markers
+                            </a>
+                        </li>
+
+                    {% endblock %}
+
+
+
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+</header>
